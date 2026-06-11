@@ -372,12 +372,23 @@ func TestGetGitHubContext(t *testing.T) {
 		actor = a
 	}
 
+	// In GitHub Actions CI the runner sets GITHUB_REPOSITORY and
+	// GITHUB_REPOSITORY_OWNER to the current repo, which matches the checkout's
+	// origin. Preferring these built-ins over the hardcoded nektos/act lets the
+	// test pass on any fork's CI without hardcoding nektos/act, while the ACT_*
+	// overrides still take precedence for local/explicit configuration.
 	repo := "nektos/act"
+	if r := os.Getenv("GITHUB_REPOSITORY"); r != "" {
+		repo = r
+	}
 	if r := os.Getenv("ACT_REPOSITORY"); r != "" {
 		repo = r
 	}
 
 	owner := "nektos"
+	if o := os.Getenv("GITHUB_REPOSITORY_OWNER"); o != "" {
+		owner = o
+	}
 	if o := os.Getenv("ACT_OWNER"); o != "" {
 		owner = o
 	}
