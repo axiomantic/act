@@ -23,6 +23,7 @@ pkg/runner/act/
 
 # act binary
 dist/local/act
+/act-bin
 
 coverage.txt
 unit-tests.xml
